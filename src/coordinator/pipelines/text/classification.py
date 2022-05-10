@@ -136,7 +136,7 @@ class TextClassificationPipeline(Pipeline):
 
         self.run_job(
             model_run_id, lambda: self.inference.run(
-                etl_status.result, model_run_id, training_status.result[
+                etl_status.result['etl_file'], model_run_id, training_status.result[
                     'model'], job_name))
 
         self.update_status(PipelineState.COMPLETE, model_run_id)
