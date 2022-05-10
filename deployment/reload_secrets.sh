@@ -17,12 +17,12 @@ then
     gcloud -q compute instances stop --zone=us-central1-a $DEPLOYMENT_NAME
     gcloud -q compute instances start --zone=us-central1-a $DEPLOYMENT_NAME
     DEPLOYMENT_IP=$(gcloud compute instances describe $DEPLOYMENT_NAME --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
-    ENDPOINT=http://$DEPLOYMENT_IP:8000/ping
+    ENDPOINT=https://$DEPLOYMENT_IP/ping
     echo "Waiting for endpoint to become available."
     for i in {1..20}
     do
         sleep $i
-        RESPONSE=$(curl -s --max-time 1 $ENDPOINT/ping || echo "")
+        RESPONSE=$(curl -k -s --max-time 1 $ENDPOINT/ping || echo "")
         if [[ ! -z $RESPONSE ]]; then
           echo "Reloaded secrets."
           exit 0
@@ -30,5 +30,3 @@ then
     done
     echo "Unable to connect to instance after reloading"
 fi
-
-

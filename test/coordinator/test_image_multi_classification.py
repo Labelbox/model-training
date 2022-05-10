@@ -17,6 +17,6 @@ payload = json.dumps({
 })
 signature = "sha1=" + hmac.new(
     secret, msg=payload.encode(), digestmod=hashlib.sha1).hexdigest()
-res = requests.post("http://localhost:8000/model_run",
+res = requests.post("https://0.0.0.0/model_run",
                     data=payload,
                     headers={'X-Hub-Signature': signature})

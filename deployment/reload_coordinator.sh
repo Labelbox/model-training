@@ -15,12 +15,12 @@ then
     gcloud compute instances start $DEPLOYMENT_NAME
 
     DEPLOYMENT_IP=$(gcloud compute instances describe $DEPLOYMENT_NAME --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
-    ENDPOINT=http://$DEPLOYMENT_IP:8000/ping
+    ENDPOINT=https://$DEPLOYMENT_IP/ping
     echo "Waiting for endpoint to become available."
     for i in {1..20}
     do
         sleep $i
-        RESPONSE=$(curl -s --max-time 1 $ENDPOINT/ping || echo "")
+        RESPONSE=$(curl -k -s --max-time 1 $ENDPOINT/ping || echo "")
         if [[ ! -z $RESPONSE ]]; then
           echo "Reloaded coordinator."
           exit 0

@@ -1,7 +1,8 @@
 FROM python:3.9-slim-buster
-RUN apt-get update -y && apt-get install -y libgl1-mesa-glx libglib2.0-0
+RUN apt-get update -y && apt-get install -y libgl1-mesa-glx libglib2.0-0 libssl-dev curl
 
 WORKDIR /app
+
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
@@ -19,4 +20,4 @@ ENV DEPLOYMENT_NAME=$DEPLOYMENT_NAME
 
 COPY . .
 
-ENTRYPOINT [ "python3", "coordinator.py"]
+ENTRYPOINT ["./startup.sh"]

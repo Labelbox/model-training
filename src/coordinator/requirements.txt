@@ -5,3 +5,4 @@ google-cloud-aiplatform==1.11.0
 google-cloud-secret-manager
 labelbox[data]
 ndjson
+uvicorn[standard]

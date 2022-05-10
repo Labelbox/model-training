@@ -19,7 +19,7 @@ services:
         source: ${GOOGLE_APPLICATION_CREDENTIALS}
         target: ${GOOGLE_APPLICATION_CREDENTIALS}
     ports:
-      - 8000:8000
+      - 443:443
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS}
 

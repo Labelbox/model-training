@@ -9,8 +9,9 @@ from fastapi import BackgroundTasks, FastAPI, HTTPException, Header, Request
 from fastapi.concurrency import run_in_threadpool
 from fastapi.logger import logger
 import uvicorn
+from time import sleep
 
-from config import pipelines, PipelineName, SERVICE_SECRET
+from config import pipelines, SERVICE_SECRET
 from pipelines.types import PipelineState
 
 logger = logging.getLogger("uvicorn")
@@ -18,7 +19,15 @@ logger.setLevel(logging.DEBUG)
 app = FastAPI()
 
 
+in_progress = set()
+
 async def run(json_data: Dict[str, Any]):
+    job_name = json_data['job_name']
+    if job_name in in_progress:
+        raise Exception(f"Job `{job_name}` already exists")
+
+    in_progress.add(job_name)
+
     try:
         pipeline = json_data['pipeline']
         await run_in_threadpool(pipelines[pipeline].run, json_data)
@@ -26,6 +35,13 @@ async def run(json_data: Dict[str, Any]):
         pipelines[pipeline].update_status(PipelineState.FAILED,
                                           json_data['model_run_id'],
                                           error_message=str(e))
+    finally:
+        in_progress.remove(job_name)
+
+
+@app.get("/job_count")
+async def job_count():
+    return len(in_progress)
 
 
 @app.get("/models")
@@ -89,6 +105,3 @@ def validate_payload(data: Dict[str, str]):
 def health_check():
     return "pong"
 
-
-if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=8000)
