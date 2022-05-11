@@ -1,12 +1,13 @@
 import uuid
 import json
+import pathlib
 
 from labelbox import Client, DataRow, OntologyBuilder, Tool, LabelImport
 from labelbox.data.serialization import NDJsonConverter, LBV1Converter
 
 
 def load_labels():
-    with open("../assets/proj_ckq778m4g0edr0yao004l41l7_export.json") as f:
+    with open(pathlib.Path(__file__).parent.resolve() / "assets/proj_ckq778m4g0edr0yao004l41l7_export.json") as f:
         labels = json.load(f)
         return LBV1Converter().deserialize(labels).as_list()
 

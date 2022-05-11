@@ -88,7 +88,6 @@ def process_label(label: Label, bucket: Bucket, downsample_factor: int = 4) -> O
         raise InvalidLabelException(f"There are 0 valid annotations for data row `{label.data.uid}`.")
 
     gcs_uri = upload_image_to_gcs(image_bytes, label.data.uid, bucket, (w, h))
-    del image_bytes
     return json.dumps({
         'imageGcsUri':
             gcs_uri,

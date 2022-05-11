@@ -33,7 +33,7 @@ def get_feature_schema_lookup(ontology):
 
 def setup_project(client):
     project = client.create_project(name="ner_training_project")
-    dataset = client.create_dataset(name="net_training_dataset")
+    dataset = client.create_dataset(name="ner_training_dataset")
     ontology = create_ontology(client)
     project.setup_editor(ontology)
     project.datasets.connect(dataset)
@@ -127,3 +127,4 @@ def main(client):
 if __name__ == '__main__':
     client = Client()
     main(client)
+

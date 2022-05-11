@@ -1,0 +1,6 @@
+labelbox[data]
+tensorflow
+tensorflow_datasets
+datasets
+scipy
+google-cloud-aiplatform==1.11.0

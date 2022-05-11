@@ -55,7 +55,6 @@ def get_image_bytes(image_url: str, downsample_factor = 1.) -> Optional[Tuple[Im
             w,h = image.size
             with image.resize((int(w *  1./downsample_factor), int(h * 1./downsample_factor))) as resized_image:
                 image_bytes = image_to_bytes(resized_image)
-                resized_image.close()
                 return image_bytes, (w,h)
     except DecompressionBombError:
         raise InvalidDataRowException(f"Image to large : `{image_url}`.")
