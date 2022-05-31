@@ -1,6 +1,6 @@
 google-cloud-storage
 scikit-learn==1.0.2
 opencv-python==4.5.5.62
-Pillow==8.1.1
+Pillow==9.0.1
 mxnet==1.8.0.post0
 numpy==1.21.5
